@@ -37,6 +37,22 @@ body {
   color: var(--foreground);
 }
 
+.page-header {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+  padding-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.page-title {
+  margin: 0;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .page-frame {
   position: relative;
   display: flex;
@@ -89,21 +105,6 @@ body {
   filter: brightness(0) invert(1);
 }
 
-.page-title-container {
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 8rem;
-  z-index: 10;
-}
-
-.page-title {
-  margin: 0;
-  text-align: center;
-  font-size: 2rem;
-  font-weight: bold;
-}
-
 .page-content {
   display: flex;
   flex-direction: column;
@@ -114,8 +115,61 @@ body {
   left: 50%;
   transform: translateX(-50%);
   top: 8rem;
-  bottom: 120px;
+  bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.chat-thread {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.5rem 0 1rem;
   overflow-y: auto;
+}
+
+.message-row {
+  display: flex;
+  width: 100%;
+}
+
+.user-row {
+  justify-content: flex-end;
+}
+
+.assistant-row {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 1rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.message-bubble.user {
+  background: #3b82f6;
+  color: #ffffff;
+  border-bottom-right-radius: 0.35rem;
+}
+
+.message-bubble.assistant {
+  background: #e5e7eb;
+  color: #111827;
+  border-bottom-left-radius: 0.35rem;
+}
+
+.empty-state {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px dashed #4b5563;
+  border-radius: 0.75rem;
+  color: #9ca3af;
+  text-align: center;
 }
 
 .input-container {
@@ -125,12 +179,9 @@ body {
   gap: 0.75rem;
   width: 100%;
   max-width: 600px;
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 1.5rem;
   z-index: 10;
-  padding: 0 1.5rem;
+  padding: 0.75rem 0 0;
+  background: var(--background);
 }
 
 .message-input {

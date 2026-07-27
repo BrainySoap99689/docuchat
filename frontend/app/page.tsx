@@ -2,10 +2,57 @@
 
 import { useState, useEffect } from "react";
 
+type ChatMessage = {
+  id: number;
+  role: "user" | "assistant";
+  content: string;
+};
+
 export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [documents, setDocuments] = useState<string[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
+  const [question, setQuestion] = useState("");
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSend() {
+    const trimmedQuestion = question.trim();
+    if (!selectedDocument || !trimmedQuestion) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now(),
+      role: "user",
+      content: trimmedQuestion,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setQuestion("");
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/chat?query=${encodeURIComponent(trimmedQuestion)}&document_name=${encodeURIComponent(selectedDocument)}`,
+        {
+          method: "POST",
+        }
+      );
+
+      const data = await response.json();
+      const assistantMessage: ChatMessage = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: data.response || data.answer || JSON.stringify(data),
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      setError("Failed to send message");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     async function fetchDocuments() {
@@ -59,6 +106,10 @@ export default function Home() {
 
   return (
     <main className="page-shell">
+      <div className="page-header">
+        <h1 className="page-title">DocuChat</h1>
+      </div>
+
       <div className="page-frame">
         <div className="sidebar">
           <label htmlFor="file-input" className="upload-button">
@@ -83,20 +134,49 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="page-title-container">
-          <h1 className="page-title">DocuChat</h1>
-        </div>
-
         <div className="page-content">
           {error && <div className="error-message">{error}</div>}
+
+          <div className="chat-thread">
+            {messages.length === 0 && !isLoading && (
+              <div className="empty-state">
+                Ask a question about the selected document and the answer will appear here.
+              </div>
+            )}
+
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`message-row ${message.role === "user" ? "user-row" : "assistant-row"}`}
+              >
+                <div className={`message-bubble ${message.role}`}>
+                  {message.content}
+                </div>
+              </div>
+            ))}
+
+            {isLoading && (
+              <div className="message-row assistant-row">
+                <div className="message-bubble assistant">Thinking…</div>
+              </div>
+            )}
+          </div>
 
           <div className="input-container">
             <input
               type="text"
               className="message-input"
               placeholder="Type your message..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
             />
-            <button className="send-button">
+            <button className="send-button" onClick={handleSend}>
               <img
                 src="/send-svgrepo-com.svg"
                 alt="Send"
