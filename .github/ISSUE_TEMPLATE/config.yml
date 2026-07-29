@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Questions and Discussions
+    url: https://github.com/BrainySoap99689/docuchat/discussions
+    about: Ask questions or discuss ideas that are not bug reports or feature requests.
+
+  - name: Security Vulnerability
+    url: https://github.com/BrainySoap99689/docuchat/security/advisories/new
+    about: Privately report a potential security vulnerability.

@@ -1,0 +1,99 @@
+name: Bug Report
+description: Report a bug or unexpected behavior.
+title: "[Bug]: "
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report this issue!
+        Please provide as much detail as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Clearly describe what happened.
+      placeholder: The application crashes when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Tell us exactly how to reproduce the problem.
+      placeholder: |
+        1. Upload a PDF
+        2. Ask a question
+        3. Click Send
+        4. Observe the error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Paste any terminal output or stack traces.
+      render: shell
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 139
+
+  - type: input
+    id: operating_system
+    attributes:
+      label: Operating System
+      placeholder: macOS Sequoia 15.6
+
+  - type: input
+    id: docker
+    attributes:
+      label: Docker Version
+      placeholder: Docker Desktop 4.44.0
+
+  - type: input
+    id: app_version
+    attributes:
+      label: Project Version or Commit
+      placeholder: main (commit abc123)
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag and drop screenshots here if applicable.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched the existing issues.
+          required: true
+        - label: I have included steps to reproduce the issue.
+          required: true
+        - label: I have included relevant logs or screenshots if available.
+          required: false
