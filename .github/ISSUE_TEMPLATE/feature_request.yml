@@ -1,0 +1,93 @@
+name: Feature Request
+description: Suggest a new feature or improvement for Docuchat.
+title: "[Feature]: "
+labels:
+  - enhancement
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an improvement!
+        Please describe the feature, the problem it solves, and how it should work.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Limitation
+      description: What problem are you trying to solve?
+      placeholder: |
+        Currently, users cannot...
+        This makes it difficult to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature or behavior you would like.
+      placeholder: |
+        Add a feature that allows users to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: user_flow
+    attributes:
+      label: Example User Flow
+      description: Explain how someone would use this feature.
+      placeholder: |
+        1. The user uploads a document.
+        2. The user selects...
+        3. The application displays...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Project Area
+      description: Which part of the project would this feature affect?
+      options:
+        - Frontend
+        - FastAPI backend
+        - PostgreSQL or pgvector
+        - Document processing
+        - Embeddings and retrieval
+        - Ollama or LLM integration
+        - Docker or deployment
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or workarounds.
+      placeholder: I also considered...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add screenshots, mockups, links, or other relevant details.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched the existing issues for similar requests.
+          required: true
+        - label: This request describes one specific feature or improvement.
+          required: true
+        - label: I explained the problem this feature would solve.
+          required: true
