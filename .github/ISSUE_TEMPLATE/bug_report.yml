@@ -57,12 +57,6 @@ body:
       render: shell
 
   - type: input
-    id: browser
-    attributes:
-      label: Browser
-      placeholder: Chrome 139
-
-  - type: input
     id: operating_system
     attributes:
       label: Operating System
