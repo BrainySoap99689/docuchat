@@ -133,18 +133,19 @@ def trackDocuments(pdf_path):
     cursor.close()
     conn.close()
 
-def processPDF(pdf_path):
+def processPDF(pdf_path, document_name):
     pages = extract_text(pdf_path)
     chunks = chunkPages(pages)
-    storeEmbeddings(chunks, pdf_path)
-    trackDocuments(pdf_path)
+
+    storeEmbeddings(chunks, document_name)
+    trackDocuments(document_name)
 
     return len(chunks)
 
 def vector_similarity_search(question, document_name):
     conn = get_conn()
     cursor = conn.cursor()
-    question_embedding = model.encode([question])[0].tolist()
+    question_embedding = get_embedding_model().encode([question])[0].tolist()
     query = """
         SELECT
         chunk_text,

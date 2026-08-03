@@ -37,21 +37,24 @@ async def get_documents():
 async def upload_pdf(file: UploadFile = File(...)):
     # Save the uploaded file to a temporary location
     temp_file_path = f"temp_{file.filename}"
-    check = check_db(temp_file_path)
+
+    check = check_db(file.filename)
+
     if check:
         return {"Error Message": f"{file.filename} has already been uploaded."}
+
     else:
         with open(temp_file_path, "wb") as f:
             f.write(await file.read())
 
         # Process the PDF and store embeddings
-        num_chunks = processPDF(file.filename)
+        num_chunks = processPDF(temp_file_path, file.filename)
 
         # Clean up the temporary file
         os.remove(temp_file_path)
 
         return {"message": f"Processed {num_chunks} chunks from {file.filename}"}
-
+    
 @app.post("/chat")
 async def chat_with_pdf(query: str, document_name: str):
     results = vector_similarity_search(query, document_name)
