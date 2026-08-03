@@ -12,7 +12,15 @@ load_dotenv()
 
 ollama_client = Client(host="http://host.docker.internal:11434")
 
-model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+model = None
+
+def get_embedding_model():
+    global model
+
+    if model is None:
+        model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+
+    return model
 
 
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -78,7 +86,7 @@ def chunkPages(pages):
     return chunks
 
 def createEmbeddings(chunk):
-    embedding = model.encode(chunk)
+    embedding = get_embedding_model().encode(chunk)
     return embedding.tolist()
 
 def storeEmbeddings(chunks, document_name):
@@ -125,18 +133,19 @@ def trackDocuments(pdf_path):
     cursor.close()
     conn.close()
 
-def processPDF(pdf_path):
+def processPDF(pdf_path, document_name):
     pages = extract_text(pdf_path)
     chunks = chunkPages(pages)
-    storeEmbeddings(chunks, pdf_path)
-    trackDocuments(pdf_path)
+
+    storeEmbeddings(chunks, document_name)
+    trackDocuments(document_name)
 
     return len(chunks)
 
 def vector_similarity_search(question, document_name):
     conn = get_conn()
     cursor = conn.cursor()
-    question_embedding = model.encode([question])[0].tolist()
+    question_embedding = get_embedding_model().encode([question])[0].tolist()
     query = """
         SELECT
         chunk_text,
