@@ -68,10 +68,11 @@ jobs:
             -h localhost \
             -U postgres \
             -d app_db_test \
+            -c "CREATE EXTENSION IF NOT EXISTS vector;" \
             -c "CREATE TABLE IF NOT EXISTS document_names (
                   id SERIAL PRIMARY KEY,
                   document_name TEXT NOT NULL
-                );"
+                );" \
             -c "CREATE TABLE IF NOT EXISTS document_chunks (
                   id SERIAL PRIMARY KEY,
                   document_name TEXT NOT NULL,
@@ -80,14 +81,8 @@ jobs:
                   embedding VECTOR(384)
                 );"
 
-      - name: Run documents test
-        run: pytest tests/test_documents.py -v
-
-      - name: Run upload test
-        run: pytest tests/test_upload.py -v
-
-      - name: Run chat test
-        run: pytest tests/test_chat.py -v
+      - name: Run backend tests
+        run: pytest tests/ -v
 
   frontend:
     name: Frontend checks
