@@ -12,7 +12,15 @@ load_dotenv()
 
 ollama_client = Client(host="http://host.docker.internal:11434")
 
-model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+model = None
+
+def get_embedding_model():
+    global model
+
+    if model is None:
+        model = SentenceTransformer("BAAI/bge-small-en-v1.5")
+
+    return model
 
 
 splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
@@ -78,7 +86,7 @@ def chunkPages(pages):
     return chunks
 
 def createEmbeddings(chunk):
-    embedding = model.encode(chunk)
+    embedding = get_embedding_model().encode(chunk)
     return embedding.tolist()
 
 def storeEmbeddings(chunks, document_name):
