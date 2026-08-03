@@ -8,4 +8,5 @@ sentence-transformers==2.3.0
 python-multipart==0.0.31
 ollama 
 pytest
-httpx
+httpx==0.24.1
+numpy<2
