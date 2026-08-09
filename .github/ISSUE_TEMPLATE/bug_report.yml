@@ -55,6 +55,8 @@ body:
       label: Error Logs
       description: Paste any terminal output or stack traces.
       render: shell
+    validations:
+      required: false
 
   - type: input
     id: operating_system
@@ -75,10 +77,12 @@ body:
       placeholder: main (commit abc123)
 
   - type: textarea
-    id: screenshots
+    id: acceptance
     attributes:
-      label: Screenshots
-      description: Drag and drop screenshots here if applicable.
+      label: Acceptance Criteria
+      description: Criteria for a pr to be merged to fix this issue. (Optional)
+    validations:
+      required: false
 
   - type: checkboxes
     id: checklist
