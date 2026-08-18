@@ -349,8 +349,7 @@ Current checks include:
 * Installing frontend dependencies
 * Running frontend linting
 * Building the Next.js frontend
-
-Automated backend tests will be added later using pytest.
+* Automated Backend Tests
 
 ## Environment Variables
 
